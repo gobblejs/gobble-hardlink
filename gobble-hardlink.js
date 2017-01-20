@@ -4,8 +4,6 @@ var fs = require("fs");
 
 module.exports = hardlink;
 
-// Autoprefixer works with filenames for its sourcemaps, which means it needs to
-// be a directory transformer.
 function hardlink(inputdir, outputdir, options) {
 
 	return sander.lsr( inputdir ).then( function ( allFiles ) {
@@ -14,13 +12,14 @@ function hardlink(inputdir, outputdir, options) {
 		for (var i in allFiles) {
 			var filename = allFiles[i];
 
-			ops.push(new Promise(function(res){
-				fs.linkSync(
-					path.join(inputdir, filename),
-					path.join(outputdir, filename),
-					res
-				);
-			}));
+			ops.push(
+				sander.realpath(inputdir, filename).then((function(file){
+					return function(realpath) {
+// 						console.log('Hard-linking from: ', path.join(inputdir, file), ', realpath: ', realpath, ' to: ', path.join(outputdir, file));
+						return sander.link(realpath).to(outputdir, file);
+					}
+				})(filename))
+			);
 		}
 
 		return Promise.all(ops);

@@ -1,6 +1,6 @@
 {
   "name": "gobble-hardlink",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Gobble plugin to hard-link files",
   "main": "gobble-hardlink.js",
   "scripts": {

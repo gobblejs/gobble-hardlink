@@ -1,4 +1,4 @@
-# gobble-leafdoc
+# gobble-hardlink
 
 Gobble plugin to hard-link files.
 
